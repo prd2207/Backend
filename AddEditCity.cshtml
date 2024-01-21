@@ -1,0 +1,88 @@
+﻿@using WelspunVessel.DTO.Masters
+@model CityMasterDTO
+@using WelspunVessel.DTO
+
+@if (Model != null && Model.CityId > 0)
+{
+    ViewBag.Title = "Edit City Detail";
+
+}
+else
+{
+    ViewBag.Title = "Add City Detail";
+}
+<section class="content-header">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+        @if (Model != null && Model.CityId > 0)
+        {
+            <h2 class="main-title">Edit City Master</h2>
+        }
+        else
+        {
+            <h2 class="main-title">Add City Master</h2>
+        }
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="@Url.Action("Index", "CityMaster")"> City Master</a></li>
+            @if (Model != null && Model.CityId > 0)
+            {
+                <li class="active">Edit City Master</li>
+
+            }
+            else
+            {
+                <li class="active">Add City Master</li>
+            }
+        </ol>
+    </div>
+    @Html.Partial("_TempMessage")
+</section>
+<section class="content">
+    <form asp-action="AddEditCity" method="post" enctype="multipart/form-data" class="">
+        <div class="col-lg-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 table-layer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="form-horizontal">
+                                <fieldset class="col-md-12 fieldsetGroup">
+                                    <div class="col-md-6">
+                                        <label asp-for="CountryId" class="control-label">Country Name</label><span class="control-label requiredStar">*</span>
+                                        <select id="CountryId" asp-for="CountryId" class="form-control"
+                                                asp-items="@(new SelectList(@ViewBag.CountryList,"CountryID", "CountryName"))"
+                                                tabindex="1">
+                                            <option value="">Select Country</option>
+                                        </select>
+                                        <span asp-validation-for="CountryId" class="text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="CityName" class="control-label">City Name</label><span class="control-label requiredStar">*</span>
+                                        <input asp-for="CityName" class="form-control" type="text" tabindex="2" autocomplete="off" maxlength="100"/>
+                                        <span asp-validation-for="CityName" class="text-danger"></span>
+                                    </div>
+                                   <div class="row" style="margin-right:0px">
+                                    <div class="col-md-6" style=" margin-left: 13px;">
+                                        <label asp-for="IsActive" class="control-label">Status</label><span class="control-label"></span>
+                                        <br />
+                                        <select asp-for="IsActive" class="form-control" tabindex="16">
+                                            <option value=''>Select Status</option>
+                                            <option value='true'>Active</option>
+                                            <option value='false'>InActive</option>
+                                        </select>
+                                    </div>
+                                   </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <input asp-for="CountryId" type="hidden" />
+                    <input asp-for="CityId" type="hidden" />
+                    <input type="submit" style='margin-right:15px' id="btnAddRow" value="Submit" class="btn btn-default custom-btn" tabindex="4" />
+                    <a href="@Url.Action("Index")" class="btn btn-default custom-btn" tabindex="5">Back</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
