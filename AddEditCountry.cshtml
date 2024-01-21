@@ -1,0 +1,78 @@
+﻿@using WelspunVessel.DTO
+@using WelspunVessel.DTO.Masters
+@model CountryMasterDTO
+
+@if (Model != null && Model.CountryId > 0)
+{
+    ViewBag.Title = "Add Country Master";
+
+}
+else
+{
+    ViewBag.Title = "Add Country Master";
+}
+
+<section class="content-header">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+        @if (Model != null && Model.CountryId > 0)
+        {
+        <h2 class="main-title">Edit Country Master</h2>
+
+        }
+        else
+        {
+      <h2 class="main-title">Add Country Master</h2>
+        }
+
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="@Url.Action("Index", "CountryMaster")"> Country Master</a></li>
+            @if (Model != null && Model.CountryId > 0)
+            {
+              <li class="active">Edit Country Master</li>
+
+            }
+            else
+            {
+              <li class="active">Add Country Master</li>
+            }
+        </ol>
+    </div>
+    @Html.Partial("_TempMessage")
+</section>
+<section class="content">
+    <form asp-action="AddEditCountry" method="post" enctype="multipart/form-data" class="">
+        <div class="col-lg-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 table-layer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="form-horizontal">
+                                <fieldset class="col-md-12 fieldsetGroup">
+                                    <div class="col-md-6">
+                                        <label asp-for="CountryName" class="control-label">Country Name</label><span class="control-label requiredStar">*</span>
+                                        <input asp-for="CountryName" class="form-control" type="text" tabindex="1" autocomplete="off" maxlength="100"/>
+                                        <span asp-validation-for="CountryName" class=" text-danger"></span>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label asp-for="IsActive" class="control-label">Status</label><span class="control-label"></span>
+                                        <br />
+                                        <select asp-for="IsActive" class="form-control" tabindex="16">
+                                            <option value='true'>Active</option>
+                                            <option value='false'>InActive</option>
+                                        </select>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="">
+                    <input asp-for="CountryId" type="hidden" />
+                    <input type="submit" style='margin-right:15px' id="btnAddRow" value="Submit" class="btn btn-default custom-btn" tabindex="3" />
+                    <a href="@Url.Action("Index")" class="btn btn-default custom-btn" tabindex="4">Back</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
