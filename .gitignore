@@ -1,0 +1,14 @@
+/packages
+/WelspunVessel.WebAPI/obj
+/WelspunVessel.WebAPI/bin
+/WelspunVessel.Web/obj
+/WelspunVessel.Web/bin
+/WelspunVessel.Util/obj
+/WelspunVessel.Util/bin
+/WelspunVessel.DTO/obj
+/WelspunVessel.DTO/bin
+/WelspunVessel.DAL/obj
+/WelspunVessel.DAL/bin
+/.vs/WelspunVessel/DesignTimeBuild/*.v2
+/.vs/WelspunVessel/config
+/.vs/WelspunVessel/v16
