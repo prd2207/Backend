@@ -1,0 +1,194 @@
+﻿@model WelspunVessel.DTO.Masters.CustomerMasterDTO
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+@if (Model != null && Model.CustomerID > 0)
+{
+    ViewBag.Title = "Edit Customer Detail";
+
+}
+else
+{
+    ViewBag.Title = "Add Customer Detail";
+}
+<section class="content-header">
+    <div class="col-lg-12 col-sm-12 col-md-12">
+        @if (Model != null && Model.CustomerID > 0)
+        {
+            <h2 class="main-title">Edit Customer Master</h2>
+
+        }
+        else
+        {
+            <h2 class="main-title">Add Customer Master</h2>
+        }
+
+        <ol class="breadcrumb">
+            <li><a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> Home</a></li>
+            <li><a href="@Url.Action("Index", "CustomerMaster")">Customer Master</a></li>
+            @if (Model != null && Model.CustomerID > 0)
+            {
+                <li class="active">Edit Customer Master</li>
+
+            }
+            else
+            {
+                <li class="active">Add Customer Master</li>
+            }
+        </ol>
+    </div>
+    @Html.Partial("_TempMessage")
+</section>
+<section class="content">
+    <form asp-action="AddEdit" method="post" enctype="multipart/form-data" class="">
+        <div class="col-lg-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 table-layer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="form-horizontal">
+                                <fieldset class="col-md-12 fieldsetGroup">
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <label asp-for="CustomerName" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <input asp-for="CustomerName" class="form-control" type="text" tabindex="1" maxlength="100"/>
+                                            <span asp-validation-for="CustomerName" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label asp-for="FirstName" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <input asp-for="FirstName" class="form-control" tabindex="2" type="text" maxlength="100"/>
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label asp-for="LastName" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <input asp-for="LastName" class="form-control" type="text" tabindex="3" maxlength="100"/>
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <label asp-for="Mobile" class="control-label"></label>
+                                            <input asp-for="Mobile" class="form-control" type="text" tabindex="4" maxlength="15"/>
+                                            <span asp-validation-for="Mobile" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label asp-for="Email" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <input asp-for="Email" class="form-control" type="text" tabindex="5" maxlength="320"/>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label asp-for="CountryId" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <select id="CountryId" asp-for="CountryId" class="form-control" onchange="BindCity();"
+                                                    asp-items="@(new SelectList(@ViewBag.CountryMster,"CountryID", "CountryName"))"
+                                                    tabindex="6">
+                                                <option value="">Select Country</option>
+                                            </select>
+                                            <span asp-validation-for="CountryId" class="text-danger"></span>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <label asp-for="CityId" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <select id="CityId" asp-for="CityId" class="form-control"
+                                                    asp-items="@(new SelectList(@ViewBag.CityMster,"CityId", "CityName"))"
+                                                    tabindex="7">
+                                                <option value="">Select City</option>
+                                            </select>
+                                            <span asp-validation-for="CityId" class="text-danger"></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label asp-for="PostalCode" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <input asp-for="PostalCode" class="form-control" type="text" tabindex="8" maxlength="10"/>
+                                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <label asp-for="AddressLine1" class="control-label"></label><span class="control-label requiredStar">*</span>
+                                            <input asp-for="AddressLine1" class="form-control" type="text" tabindex="9" maxlength="250"/>
+                                            <span asp-validation-for="AddressLine1" class="text-danger"></span>
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md-4">
+                                            <label asp-for="AddressLine2" class="control-label"></label><span class="control-label requiredStar"></span>
+                                            <input asp-for="AddressLine2" class="form-control" type="text" tabindex="10" maxlength="250"/>
+                                            <span asp-validation-for="AddressLine2" class="text-danger"></span>
+                                        </div>
+                                     
+
+                                        <div class="col-md-4">
+                                            <label asp-for="IsActive" class="control-label"></label><span class="control-label"></span>
+                                            <br />
+                                            <select asp-for="IsActive" class="form-control" tabindex="16">
+                                                <option value='true'>Active</option>
+                                                <option value='false'>InActive</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="">
+                    <input asp-for="CustomerID" type="hidden" id="Cid" />
+                    <input type="submit" id="btnAddRow" value="Submit" class="btn btn-default custom-btn" style='margin-right:15px' tabindex="13" />
+                    <a href="@Url.Action("Index")" class="btn btn-default custom-btn" tabindex="14" style='margin-right:15px'>Back</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</section>
+
+
+
+<script type="text/javascript">
+    function BindCity() {
+   /*     debugger;*/
+        if ($("#CountryId").val() == "") {
+            $("#CityId").val("");
+            $("#CityId").attr("disabled", "disabled");
+            return;
+        }
+        var CountryId = $("#CountryId").val();
+
+        $("#CityID").prop("disabled", false);
+        $.ajax({
+            url: '@Url.Action("BindCity","CustomerMaster")',
+            async: false,
+            data: "CountryId=" + CountryId,
+            cache: false,
+            type: 'POST',
+            success: function (data, textStatus, jqXHR) {
+                $("#CityId").empty();
+                $("#CityId").append('<option value="">Select City</option>');
+                var city = data.cities;
+                $.each(city, function (i, city) {
+                    $("#CityId").append($("<option/>").val(city.cityId).text(city.cityName));
+                });
+                $("#CityId").removeAttr("disabled");
+            },
+            error: function (err) {
+            }
+        });
+    }
+</script>
+
+
+
+
+
+

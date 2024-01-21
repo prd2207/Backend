@@ -1,11 +1,13 @@
-﻿@using WelspunVessel.DTO
-@model IEnumerable<WelspunVessel.DTO.Masters.CountryMasterDTO>
+﻿@model IEnumerable<WelspunVessel.DTO.Masters.CustomerMasterDTO>
+@using WelspunVessel.DTO
+
 <section class="content-header">
     <div class="col-lg-12 col-sm-12 col-md-12">
-        <h2 class="main-title">Country Master</h2>
+        <h2 class="main-title">Customer Master</h2>
+
         <ol class="breadcrumb">
             <li><a href="/Home/Index"><i class="fa fa-home"></i> Home</a></li>
-            <li class="active">Country Master</li>
+            <li class="active">Customer Master</li>
         </ol>
     </div>
     @Html.Partial("_TempMessage")
@@ -15,20 +17,18 @@
         <div class="col-lg-12 col-md-12 col-sm-12 table-layer">
             <div class="row">
                 <div class="col-md-3 margin-bottom-15">
-                    <a class="btn btn-default custom-btn" href="@Url.Action("AddEditCountry","CountryMaster", new { id = 0})" id="btnAdd">Add New Country</a>
+                    <a class="btn btn-default custom-btn" href="@Url.Action("AddEdit","CustomerMaster", new { id = 0})" id="btnAdd">Add New Customer</a>
+                    </div>
+                    </div>
+                    <div class="table-responsive">
+                        <div data-role="wrapper" class="gj-grid-wrapper">
+                            <table class="table-striped gj-grid gj-grid-bootstrap gj-grid-bootstrap-3 table table-bordered table-hover" id="tblCustomerList">
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="table-responsive">
-                <div data-role="wrapper" class="gj-grid-wrapper">
-                    <table class="table-striped gj-grid gj-grid-bootstrap gj-grid-bootstrap-3 table table-bordered table-hover" id="tblcountrymaster" overflow="">
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 </section>
-
-
 
 @Html.Partial("_Modal", new BootstrapModelDTO { ID = "modal-action-delete", AreaLabeledId = "modal-action-delete-label", Size = ModalSize.Medium })
 @section scripts
@@ -40,9 +40,8 @@
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
 
+
     <script type="text/javascript">
-
-
 
     var aButtonsData = [];
     aButtonsData.push({
@@ -50,15 +49,12 @@
     });
     $(document).ready(function () {
 
-
-
-        $("#tblcountrymaster").dataTable({
+        $("#tblCustomerList").dataTable({
             "pageLength": 10,
             "lengthMenu": [10, 25, 50, 75, 100],
             "bLengthChange": true,
-            buttons: aButtonsData,
+            "buttons": aButtonsData,
             "destroy": true,
-            "fixedColumns": true,
             "searching": true,
             "paging": true,
             "processing": false, // for show progress bar
@@ -73,11 +69,12 @@
                 return nRow;
             },
             "ajax": {
-                "url": '@Url.Action("GetCountryList", "CountryMaster")',
+                "url": '@Url.Action("CustomerDetaillst", "CustomerMaster")',
                 "type": "POST",
                 "beforeSend": function (request) {
                 },
                 "datatype": "json",
+              /*  "data": { id: $("#ddlProject").val() },*/
             },
             "columnDefs":
             [{
@@ -89,28 +86,31 @@
                     data: null,
                     render: (data, type, row, meta) => meta.row
                 },
+                { "data": "customerName", "title": "Customer Name", "autoWidth": true, "searchable": true },
+                { "data": "firstName", "title": "First Name", "autoWidth": true, "searchable": true },
+                { "data": "lastName", "title": "Last Name", "autoWidth": true, "searchable": true },
+                { "data": "mobile", "title": "Mobile", "autoWidth": true, "searchable": true },
+                { "data": "email", "title": "Email Address", "autoWidth": true, "searchable": true },
                 { "data": "countryName", "title": "Country Name", "autoWidth": true, "searchable": true },
+                { "data": "cityName", "title": "City Name", "autoWidth": true, "searchable": true },
                 {
                     "data": null,
                     "title": "Status",
                     "sClass": "read_only",
-                      "width": 70,
                     "searchable": true,
                     "autoWidth": true,
                     "mRender": function (data, type, row) {
-                     
+
                         if (row.isActive)
                             return '<b class="btn" title="Active">Active</b>';
                         else
-                            return '<b class="btn" title="InActive">Inactive</b>';
+                            return '<b class="btn" title="InActive">InActive</b>';
                     }
                 },
                 {
                     "data": null,
                     "title": "Action",
                     "sClass": "read_only",
-                     "width": 70,
-                    "fixedColumns": true,
                     "searchable": false,
                     "orderable": false,
                     "autoWidth": true,
@@ -119,20 +119,19 @@
                         var del = '';
                         var view = '';
                         /*var add = '';*/
-                        var rowid = row.countryId;
+                        var rowid = row.customerID;
 
-
-
-
-                        view = '<a class="" href="/CountryMaster/ViewDetail/' + rowid + '" id="btnView" title="View Country Detail"><i class="fa fa-eye"></i></a>&nbsp';
-                        edit = '<a class="" href="/CountryMaster/AddEditCountry/' + rowid + '" id="btnEdit" title="Edit Country Detail"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp';
-                        del = '<a class="" href="/CountryMaster/Delete/' + rowid + '" id="DeleteCountryDetail" data-toggle="modal" data-target="#modal-action-delete" title="Delete Country Detail"><i class="glyphicon glyphicon-remove"></i></a>&nbsp';
+                        /*add = '<a class="" href="/CustomerMaster/AddEdit/' + rowid + '" id="btnView" title="Customer Detail"><i class="glyphicon-plus"></i></a>&nbsp';*/
+                        view = '<a class="" href="/CustomerMaster/ViewDetail/' + rowid + '" id="btnView" title="Customer Detail"><i class="fa fa-eye"></i></a>&nbsp';
+                        edit = '<a class="" href="/CustomerMaster/AddEdit/' + rowid + '" id="btnEdit" title="Edit Customer Detail"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp';
+                        del = '<a class="" href="/CustomerMaster/Delete/' + rowid + '" id="DeleteCustomerIDetail" data-toggle="modal" data-target="#modal-action-delete" title="Delete Customer Detail"><i class="glyphicon glyphicon-remove"></i></a>&nbsp';
                         return view + edit + del;
                     }
                 }
+
             ]
         });
+
     });
     </script>
 }
-

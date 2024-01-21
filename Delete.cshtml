@@ -1,13 +1,15 @@
-﻿@using WelspunVessel.DTO.Masters
+﻿@model WelspunVessel.DTO.Masters.CustomerMasterDTO
 @using WelspunVessel.DTO
-@model CountryMasterDTO
+
 
 @using (Html.BeginForm())
 {
-    @Html.Partial("_ModalHeader", new ModalHeaderDTO { Heading = "Delete Country" })
+    @Html.Partial("_ModalHeader", new ModalHeaderDTO { Heading = "Delete Customer" })
 
     <div class="modal-body form-horizontal">
-        Are you want to delete Country:  @Model.CountryName?
+        Are you sure want to delete Customer Detail: @Model.CustomerName?
     </div>
     @Html.Partial("_ModalFooter", new ModalFooterDTO { SubmitButtonText = "Delete" })
+
+
 }
