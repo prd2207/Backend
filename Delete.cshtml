@@ -1,15 +1,15 @@
 ﻿@using WelspunVessel.DTO.Masters
-@model CityMasterDTO
 @using WelspunVessel.DTO
-
-
+@model CompanyMasterDTO
 
 @using (Html.BeginForm())
 {
-    @Html.Partial("_ModalHeader", new ModalHeaderDTO { Heading = "Delete City" })
+    @Html.Partial("_ModalHeader", new ModalHeaderDTO { Heading = "Delete Company" })
 
     <div class="modal-body form-horizontal">
-        Are you sure want to delete City: @Model.CityName?
+        Are you want to delete Company:  @Model.CompanyName?
     </div>
     @Html.Partial("_ModalFooter", new ModalFooterDTO { SubmitButtonText = "Delete" })
 }
+
+

@@ -1,14 +1,11 @@
-﻿@using WelspunVessel.DTO.Masters
-@model IEnumerable<WelspunVessel.DTO.Masters.CityMasterDTO>
-@using WelspunVessel.DTO
-
+﻿@using WelspunVessel.DTO
+@model IEnumerable<WelspunVessel.DTO.Masters.CompanyMasterDTO>
 <section class="content-header">
     <div class="col-lg-12 col-sm-12 col-md-12">
-        <h2 class="main-title">City Master</h2>
-
+        <h2 class="main-title">Company Master</h2>
         <ol class="breadcrumb">
             <li><a href="/Home/Index"><i class="fa fa-home"></i> Home</a></li>
-            <li class="active">City Master</li>
+            <li class="active">Company Master</li>
         </ol>
     </div>
     @Html.Partial("_TempMessage")
@@ -18,21 +15,24 @@
         <div class="col-lg-12 col-md-12 col-sm-12 table-layer">
             <div class="row">
                 <div class="col-md-3 margin-bottom-15">
-                    <a class="btn btn-default custom-btn" href="@Url.Action("AddEditCity","CityMaster", new { id = 0})" id="btnAdd">Add New City</a>
-                    </div>
-                    </div>
-                    <div class="table-responsive">
-                        <div data-role="wrapper" class="gj-grid-wrapper">
-                            <table class="table-striped gj-grid gj-grid-bootstrap gj-grid-bootstrap-3 table table-bordered table-hover" id="tblcitymaster" overflow="">
-                            </table>
-                        </div>
-                    </div>
+                    <a class="btn btn-default custom-btn" href="@Url.Action("AddEditCompany","CompanyMaster", new { id = 0})" id="btnAdd">Add New Company</a>
                 </div>
             </div>
+            <div class="table-responsive">
+                <div data-role="wrapper" class="gj-grid-wrapper">
+                    <table class="table-striped gj-grid gj-grid-bootstrap gj-grid-bootstrap-3 table table-bordered table-hover" id="tblcompanymaster" overflow="">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </section>
+
+
+
 @Html.Partial("_Modal", new BootstrapModelDTO { ID = "modal-action-delete", AreaLabeledId = "modal-action-delete-label", Size = ModalSize.Medium })
 @section scripts
- {
+{
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="~/lib/jquery.dataTables.js"></script>
@@ -40,8 +40,9 @@
     <link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" rel="stylesheet" />
     <link href="~/css/jquery.dataTables.min.css" rel="stylesheet" />
 
-
     <script type="text/javascript">
+
+
 
     var aButtonsData = [];
     aButtonsData.push({
@@ -49,14 +50,15 @@
     });
     $(document).ready(function () {
 
-        $("#tblcitymaster").dataTable({
-           /* dom: 'ZBlrtip',*/
 
+
+        $("#tblcompanymaster").dataTable({
             "pageLength": 10,
             "lengthMenu": [10, 25, 50, 75, 100],
             "bLengthChange": true,
-            "buttons": aButtonsData,
+            buttons: aButtonsData,
             "destroy": true,
+            "fixedColumns": true,
             "searching": true,
             "paging": true,
             "processing": false, // for show progress bar
@@ -71,12 +73,11 @@
                 return nRow;
             },
             "ajax": {
-                "url": '@Url.Action("GetCityList", "CityMaster")',
+                "url": '@Url.Action("GetCompanyList", "CompanyMaster")',
                 "type": "POST",
                 "beforeSend": function (request) {
                 },
                 "datatype": "json",
-
             },
             "columnDefs":
             [{
@@ -88,49 +89,53 @@
                     data: null,
                     render: (data, type, row, meta) => meta.row
                 },
-                { "data": "cityName", "title": "City Name", "autoWidth": true, "searchable": true },
-                { "data": "countryName", "title": "Country Name", "autoWidth": true, "searchable": true },
+                { "data": "companyName", "title": "Company Name", "autoWidth": true, "searchable": true },
+                { "data": "companySpokesperson", "title": "Company Spokesperson", "autoWidth": true, "searchable": true },
+                { "data": "companyCode", "title": "Company Code", "autoWidth": true, "searchable": true },
                 {
                     "data": null,
                     "title": "Status",
                     "sClass": "read_only",
+                      "width": 70,
                     "searchable": true,
                     "autoWidth": true,
                     "mRender": function (data, type, row) {
 
                         if (row.isActive)
-                            return '<b class="btn" title="Yes">Active</b>';
+                            return '<b class="btn" title="Active">Active</b>';
                         else
-                            return '<b class="btn" title="No">InActive</b>';
+                            return '<b class="btn" title="InActive">Inactive</b>';
                     }
                 },
                 {
                     "data": null,
                     "title": "Action",
                     "sClass": "read_only",
-                    "searchable": false,
-                    "width": 100,
+                     "width": 70,
                     "fixedColumns": true,
-                   /* "targets": 0,*/
+                    "searchable": false,
                     "orderable": false,
                     "autoWidth": true,
                     "mRender": function (data, type, row) {
                         var edit = '';
                         var del = '';
                         var view = '';
+                        /*var add = '';*/
+                        var rowid = row.companyId;
 
-                        var rowid = row.cityId;
 
 
 
-                        view = '<a class="" href="/CityMaster/ViewDetail/' + rowid + '" id="btnView" title="View City Detail"><i class="fa fa-eye"></i></a>&nbsp';
-                        edit = '<a class="" href="/CityMaster/AddEditCity/' + rowid + '" id="btnEdit" title="Edit City Detail"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp';
-                        del = '<a class="" href="/CityMaster/Delete/' + rowid + '" id="DeleteCityDetail" data-toggle="modal" data-target="#modal-action-delete" title="Delete City Detail"><i class="glyphicon glyphicon-remove"></i></a>&nbsp';
+                        view = '<a class="" href="/CompanyMaster/ViewDetail/' + rowid + '" id="btnView" title="View Company Detail"><i class="fa fa-eye"></i></a>&nbsp';
+                        edit = '<a class="" href="/CompanyMaster/AddEditCompany/' + rowid + '" id="btnEdit" title="Edit Company Detail"><i class="glyphicon glyphicon-pencil"></i></a>&nbsp';
+                        del = '<a class="" href="/CompanyMaster/Delete/' + rowid + '" id="DeleteCompanyDetail" data-toggle="modal" data-target="#modal-action-delete" title="Delete Company Detail"><i class="glyphicon glyphicon-remove"></i></a>&nbsp';
                         return view + edit + del;
                     }
+
                 }
             ]
         });
     });
     </script>
 }
+
