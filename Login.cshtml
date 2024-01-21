@@ -1,0 +1,141 @@
+﻿@model WelspunVessel.DTO.LoginDTO
+@{
+    Layout = "";
+    ViewBag.Title = "Login";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <META HTTP-EQUIV="Pragma" CONTENT="no-cache" />
+    <META HTTP-EQUIV="Expires" CONTENT="-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>
+        Globally recognized leaders in Home Textiles and Line Pipes
+    </title>
+    <meta name="description" content="Welspun provides Home & Advanced Textiles, Flooring, DI & Line Pipes, Pig Iron, TMT bars, Stainless Steel, Alloy, Infrastructure & Warehousing">
+    <link href="~/images/favicon2.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="~/css/skins/skin-blue.min.css" rel="stylesheet" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/tagsinput.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/app.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/tagsinput.js"></script>
+    <script src="~/lib/respond.js"></script>
+    <script src="~/lib/ax/ax.commonFunctions.js"></script>
+    <script src="~/lib/md5.js"></script>
+
+</head>
+<body id="wrapper">
+    <header>
+        <!-- header logo Start -->
+        <div class="topLogoblock">
+            <div class="paddlr20px">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 text-center">
+                        @*<a href="#" class="logoImg"><img src="~/Areas/Front/Images/logo.png" title="The Twig - Work in synergy" alt="The Twig - Work in synergy" width="200" height="111"></a>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header logo End -->
+    </header>
+
+
+    <section id="content" class="middleContent innerPage" style="min-height: 420px;">
+
+        <div class="row whiteBg">
+            <div class="login-form">
+                <div class="text-center login-logo">
+                    <h1>
+                        <a href="/" style="">
+                            <img src="~/images/wellogo.png" class="user-image" alt="Profile Image" align="middle" style="width: 100%; height: 100%; " />
+                            @*<span class="login-span">Welspun Vessel</span>*@
+                        </a>
+                    </h1>
+                </div>
+                <form method="post" asp-controller="Login" asp-action="Login" id="frmLogin">
+                    <h2 class="text-center">Log in</h2>
+                    <input id="ReturnURL" name="ReturnURL" type="hidden" value=""><input id="Success" name="Success" type="hidden" value="">
+                    <div class="form-group">
+                        <input asp-for="UserName" id="UserName" class="form-control" placeholder="Email address" autocomplete="off" />
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Password" class="form-control" type="password" placeholder="Password" autocomplete="off"/>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="form-group text-center">
+                        <input type="submit" value="Login" onclick="return createmd5()" class="btn btn-default custom-btn " />
+                    </div>
+                    <div class="clearfix">
+                        @*<label asp-for="RememberMe" class="control-label"></label>
+                        <input asp-for="RememberMe" class="mrgn5_0_0_10" />*@
+                        <a href="@Url.Action("ForgotPasswordWeb","ForgotPassword")" style="float:right; padding-top: 5px;" id="forgotPwd" class="pull-right"> Forgot password?</a>
+                    </div>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="row col-lg-12" style="margin: 0px 0px 0px 0px; padding:0px;">
+                            <div class="alert alert-danger text-center">@Html.ValidationMessage("authMessage")</div>
+                        </div>
+                    }
+                </form>
+                @*<div class="row socialIconsbtn">
+
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <a href="@Url.Action("Add", "UserMaster")?userId=1" class="btn btn-lg btn-newuser">
+                            <i class="fa fa-sign-out"></i>
+                            <span> New User? Click here to sign up</span>
+                        </a>
+                    </div>
+
+                </div>*@
+            </div>
+        </div>
+    </section>
+    <!-- middle section end  -->
+    <div class="footerCopyright cf" style="margin-top:0; color:#6c6c6c;">
+        <div class="paddlr20px">
+            <div class="row">
+                <!-- Copyright text -->
+                <div class="text-center col-md-12"></div>
+
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            if ($('#Success').val() != "") {
+                CommonJS.showAlert("Password Reset", $('#Success').val(), function (result) {
+                });
+            }
+            
+            $("#UserName").focus();
+
+
+        });
+        function createmd5() {
+            if ($("#Password").val() != null && $("#Password").val() != undefined && $("#Password").val() != "") { 
+                var a = hex_md5($("#Password").val());
+                $("#Password").val(a);
+            }
+            return true;
+        }
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
